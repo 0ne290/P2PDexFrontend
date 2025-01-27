@@ -6,9 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vite App</title>
   </head>
-  <body>
-    <header class="header border-bottom border-2 second-border-color first-font first-background-color second-text-color"></header>
-    <main id="app" class="main first-font first-background-color second-text-color"></main>
+  <body class="body first-font first-background-color second-text-color">
+    <header class="header container-fluid border-bottom border-2 second-border-color">
+      <div class="row h-100">
+        <div class="col-3 second-border-color">
+          <h2>Администрирование</h2>
+        </div>
+        <div class="col-6 border-start border-end border-2 second-border-color">v</div>
+        <div class="col-3 second-border-color">z</div>
+      </div>
+    </header>
+    <main id="app" class="main container"></main>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

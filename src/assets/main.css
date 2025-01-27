@@ -36,13 +36,15 @@
     border-color: var(--second-color) !important;
 }
 
+.body {
+    width: 100vw;
+}
+
 .header {
-    width: 100vw !important;
-    min-height: 13vh !important;
+    height: 13vh !important;
 }
 
 .main {
-    width: 100vw !important;
     padding-top: 10vh;
-    min-height: 87vh !important;
+    height: 87vh !important;
 }
