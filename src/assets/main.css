@@ -1,35 +1,48 @@
-@import './base.css';
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+:root {
+    --first-color: #202020 !important;
+    --second-color: #ff5f00 !important;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+@font-face {
+    font-family: "Montserrat" !important;
+    src: url("fonts/montserrat/Montserrat-VariableFont_wght.ttf") format("truetype-variations") !important;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+.first-font {
+    font-family: "Montserrat", sans-serif !important;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+.first-background-color {
+    background-color: var(--first-color) !important;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+.second-background-color {
+    background-color: var(--second-color) !important;
+}
+
+.first-text-color {
+    color: var(--first-color) !important;
+}
+
+.second-text-color {
+    color: var(--second-color) !important;
+}
+
+.first-border-color {
+    border-color: var(--first-color) !important;
+}
+
+.second-border-color {
+    border-color: var(--second-color) !important;
+}
+
+.header {
+    width: 100vw !important;
+    min-height: 13vh !important;
+}
+
+.main {
+    width: 100vw !important;
+    padding-top: 10vh;
+    min-height: 87vh !important;
 }
