@@ -1,6 +1,8 @@
 :root {
     --first-color: #202020 !important;
     --second-color: #ff5f00 !important;
+    --third-color: #d2d2d2 !important;
+    --first-font-size: 14px !important;
 }
 
 @font-face {
@@ -26,6 +28,14 @@
 
 .second-text-color {
     color: var(--second-color) !important;
+}
+
+.third-text-color {
+    color: var(--third-color) !important;
+}
+
+.first-text-size {
+    font-size: var(--first-font-size) !important;
 }
 
 .first-border-color {
