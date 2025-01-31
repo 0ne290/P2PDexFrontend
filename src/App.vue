@@ -1,9 +1,17 @@
 <script setup lang="ts">
 //import { RouterLink, RouterView } from 'vue-router'
+
+import Header from "@/components/TheHeader.vue";
+
 </script>
 
 <template>
-    <h1>Hello from Vue 3 + Bootstrap 5</h1>
+
+<Header />
+<main class="main container">
+    <RouterView />
+</main>
+
 </template>
 
 <style scoped>
