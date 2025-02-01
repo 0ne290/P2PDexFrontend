@@ -1,4 +1,22 @@
-const apiUrl: string = "https://localhost/api";
+import { useTelegramStore } from '@/stores/telegram'
+
+const apiUrl = "https://localhost/api";
+
+export async function ensureExistedOfTrader(userName: string, userId: number) {
+    const response = await fetch(`${apiUrl}/ensure-existed-of-trader/${userId}`, {
+        method: "GET",
+        mode: "cors"
+    });
+
+    if (response.status != 200) {
+        throw new Error("Unexpected error.");
+    }
+
+    const telegram = useTelegramStore();
+    telegram.auth(userName, userId);
+
+    console.log(`Status: ${response.status}\nBody: ${await response.text()}`);
+}
 
 /*export async function auth(userId: number) {
     await fetch(`${apiUrl}/auth/${userId}`, {
