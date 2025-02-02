@@ -6,9 +6,9 @@ export const useMetamaskStore = defineStore('metamask', () => {
 
   const walletAddress = ref('')
 
-  const walletBalance = ref(0)
+  const walletBalance = ref('')
 
-  function auth(address: string, balance: number) {
+  function auth(address: string, balance: string) {
     isAuth.value = true;
     walletAddress.value = address;
     walletBalance.value = balance;

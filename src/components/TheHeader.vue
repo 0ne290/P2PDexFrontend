@@ -6,18 +6,27 @@
             <div class="row h-100">
                 <div class="col p-0 d-flex justify-content-center align-items-center">
                     <span class="text-center">
-                        <i class="fa-solid fa-right-to-bracket second-text-color fa-2xl" @click="metamask.auth('Mock address', 1337.773285)"></i><br/>
-                        Mock login Metamask
+                        <i class="fa-solid fa-right-to-bracket second-text-color fa-2xl" @click="onMetamaskAuth"></i><br/>
+                        Authenticate in Metamask
                     </span>
                 </div>
                 <div class="col border-start border-2 second-border-color d-flex justify-content-center align-items-center">
-                    <span class="text-center" v-if="metamask.isAuth">{{ metamask.walletBalance }}</span>
+                    <span class="text-center" v-if="metamask.isAuth">{{ metamask.walletBalance }} ETH</span>
                     <span class="text-center" v-else>Please authenticate in Metamask.</span>
                 </div>
             </div>
         </div>
         <div class="col-6 border-start border-end border-2 second-border-color">
-            <span class="text-center" v-if="telegram.isAuth && metamask.isAuth">Authentication in Telegram and Metamask succesful, access to tabs is open.</span>
+            <div class="text-center" v-if="telegram.isAuth && metamask.isAuth">
+                <span class="text-center">
+                    <i class="fa-solid fa-right-to-bracket second-text-color fa-2xl" @click="onMetamaskAuth"></i><br/>
+                    Sell orders
+                </span>
+                <span class="text-center">
+                    <i class="fa-solid fa-right-to-bracket second-text-color fa-2xl" @click="onMetamaskAuth"></i><br/>
+                    Create sell order
+                </span>
+            </div>
             <span class="text-center" v-else>Authentication in Telegram and Metamask failed, access to tabs is closed.</span>
         </div>
         <div class="col-3">
@@ -41,6 +50,8 @@ import { useTemplateRef, onMounted } from 'vue'
 import { ensureExistedOfTrader } from '@/services/apiService'
 import { useTelegramStore } from '@/stores/telegram'
 import { useMetamaskStore } from '@/stores/metamask'
+import { MetaMaskSDK } from "@metamask/sdk"
+import { fromWei, hexToNumber } from 'web3-utils';
 
 const telegram = useTelegramStore();
 const metamask = useMetamaskStore();
@@ -85,5 +96,36 @@ onMounted(() => {
 
     telegramAuthDiv.value.appendChild(telegramAuthButton);
 });
+
+async function onMetamaskAuth() {
+    const metamaskSdk = new MetaMaskSDK({
+        dappMetadata: {
+            name: "P2P DEX",
+            url: window.location.href,
+        }
+    });
+
+    await metamaskSdk.init();
+
+    const ethereum = metamaskSdk.getProvider();
+    if (ethereum == undefined)
+        throw new Error('Cannot get metamask ethereum provider.');
+
+    const account = (await metamaskSdk.connect())[0];
+
+    console.log(account);
+
+    const balance = fromWei(hexToNumber(await ethereum.request({
+        method: "eth_getBalance", 
+        params: [
+            account,
+            "latest"
+        ] 
+    }) as string), "ether");
+
+    console.log(balance);
+
+    metamask.auth(account, balance);
+}
 
 </script>
