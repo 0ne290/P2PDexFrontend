@@ -1,13 +1,19 @@
 <script setup lang="ts">
 
-import { o } from "@/services/apiService";
+import { ref } from "vue";
+import { createSellOrder } from "@/services/apiService";
+
+const cryptoAmount = ref('');
+const cryptoToFiatExchangeRate = ref('');
+const paymentMethodInfo = ref('');
 
 </script>
 
 <template>
 
-<div v-for="order in orders">
-    {{ order.seller }} | {{ order.crypto }} | {{ order.cryptoAmount }} | {{ order.fiat }} | {{ order.cryptoToFiatExchangeRate }} | {{ order.fiatAmount }} | {{ order.paymentMethodInfo }}
-</div>
+<input type="text" v-model="cryptoAmount" placeholder="ETH amount">
+<input type="text" v-model="cryptoToFiatExchangeRate" placeholder="ETH to RUB exchange rate">
+<input type="text" v-model="paymentMethodInfo" placeholder="Payment method info">
+<button @click="createSellOrder(Number(cryptoAmount), Number(cryptoToFiatExchangeRate), paymentMethodInfo)">Create sell order</button>
 
 </template>

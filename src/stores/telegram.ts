@@ -2,17 +2,17 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useTelegramStore = defineStore('telegram', () => {
-  const isAuth = ref(false)
+    const userName = ref('')
 
-  const userName = ref('')
+    const userId = ref(0)
 
-  const userId = ref(0)
+    const isAuth = ref(false)
 
-  function auth(name: string, id: number) {
-    isAuth.value = true;
-    userName.value = name;
-    userId.value = id;
-  }
+    async function auth(name: string, id: number) {
+        userName.value = name;
+        userId.value = id;
+        isAuth.value = true;
+    }
 
-  return { isAuth, userName, userId, auth }
+    return { userName, userId, isAuth, auth }
 })

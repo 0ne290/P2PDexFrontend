@@ -2,6 +2,10 @@
 //import { RouterLink, RouterView } from 'vue-router'
 
 import Header from "@/components/TheHeader.vue";
+import { useMetamaskStore } from "@/stores/metamask"
+
+const metamask = useMetamaskStore();
+await metamask.init();
 
 </script>
 
