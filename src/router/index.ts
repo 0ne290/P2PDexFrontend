@@ -1,21 +1,26 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import d from '../views/CreateSellOrderView.vue'
-import HomeView from '../views/SellOrdersView.vue
+import CreateSellOrderView from '../views/CreateSellOrderView.vue'
+import SellOrdersView from '../views/SellOrdersView.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/sell-order/get-all',
-      name: 'home',
-      //component: HomeView,
-    },
-    {
-      path: '/sell-order/create',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
-    },
-  ],
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
+        // {
+        //     path: '/',
+        //     name: 'default',
+        //     component: CreateSellOrderView,
+        // },
+        {
+            path: '/sell-order/get-all',
+            name: 'getAllSellOrders',
+            component: CreateSellOrderView,
+        },
+        {
+            path: '/sell-order/create',
+            name: 'createSellOrder',
+            component: SellOrdersView,
+        },
+    ],
 })
 
 export default router

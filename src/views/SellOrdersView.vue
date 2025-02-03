@@ -1,9 +1,13 @@
 <script setup lang="ts">
 
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { getAllOrders } from "@/services/apiService";
 
-const orders = ref(await getAllOrders());
+const orders = ref();
+
+onMounted(async () => {
+    orders.value = await getAllOrders();
+});
 
 </script>
 

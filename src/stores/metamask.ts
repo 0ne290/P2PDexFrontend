@@ -4,25 +4,25 @@ import { MetaMaskSDK, SDKProvider } from "@metamask/sdk"
 import { fromWei, hexToNumber } from 'web3-utils';
 
 export const useMetamaskStore = defineStore('metamask', () => {
-    let sdk!: MetaMaskSDK
+    const sdk = ref<MetaMaskSDK>()
 
-    let provider!: SDKProvider
+    const provider = ref<SDKProvider>()
 
     async function init() {
-        sdk = new MetaMaskSDK({
+        sdk.value = new MetaMaskSDK({
             dappMetadata: {
                 name: "P2P DEX",
                 url: window.location.href,
             }
         });
 
-        await sdk.init();
+        await sdk.value.init();
 
-        const providerTemp = sdk.getProvider();
+        const providerTemp = sdk.value.getProvider();
         if (providerTemp == undefined)
             throw new Error('Cannot get metamask SDK provider.');
 
-        provider = providerTemp;
+        provider.value = providerTemp;
     }
 
     const walletAddress = ref('')
@@ -32,19 +32,15 @@ export const useMetamaskStore = defineStore('metamask', () => {
     const isAuth = ref(false)
 
     async function auth() {
-        walletAddress.value = (await sdk.connect())[0];
+        walletAddress.value = (await sdk.value!.connect())[0];
 
-        console.log(walletAddress.value);
-
-        walletBalance.value = fromWei(hexToNumber(await provider.request({
+        walletBalance.value = fromWei(hexToNumber(await provider.value!.request({
             method: "eth_getBalance",
             params: [
                 walletAddress.value,
                 "latest"
             ]
         }) as string), "ether");
-
-        console.log(walletBalance.value);
 
         isAuth.value = true;
     }

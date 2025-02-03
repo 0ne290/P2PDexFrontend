@@ -1,6 +1,6 @@
 import { useTelegramStore } from '@/stores/telegram'
 import { useMetamaskStore } from '@/stores/metamask'
-import { toHex, toWei } from 'web3-utils';
+import { toWei, numberToHex } from 'web3-utils';
 
 const apiUrl = "https://localhost/api";
 
@@ -42,21 +42,23 @@ export async function createSellOrder(cryptoAmount: number, cryptoToFiatExchange
     const telegram = useTelegramStore();
     const metamask = useMetamaskStore();
 
-    const transactionHash = await metamask.provider.request({
+    const transactionHash = await metamask.provider!.request({
         method: "eth_sendTransaction",
         params: [
             {
                 from: metamask.walletAddress,
                 to: await getExchangerAccountAddress(),
-                value: toHex(toWei(await calculateFinalCryptoAmountForTransfer(cryptoAmount), "ether"))
+                value: numberToHex(toWei((await calculateFinalCryptoAmountForTransfer(cryptoAmount)).toString(), "ether"))
             }
         ]
     });
-    console.log(transactionHash);
 
     const response = await fetch(`${apiUrl}/sell-order/create`, {
         method: "POST",
         mode: "cors",
+        headers: new Headers({
+            'content-type': 'application/json'
+        }),
         body: JSON.stringify({
             crypto: "Ethereum",
             cryptoAmount: cryptoAmount,

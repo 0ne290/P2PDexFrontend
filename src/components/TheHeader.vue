@@ -20,14 +20,8 @@
             </div>
             <div class="col-6 border-start border-end border-2 second-border-color">
                 <div class="text-center" v-if="telegram.isAuth && metamask.isAuth">
-                    <span class="text-center">
-                        <i class="fa-solid fa-right-to-bracket second-text-color fa-2xl"></i><br />
-                        Sell orders
-                    </span>
-                    <span class="text-center">
-                        <i class="fa-solid fa-right-to-bracket second-text-color fa-2xl"></i><br />
-                        Create sell order
-                    </span>
+                    <RouterLink to="/sell-order/get-all">Sell orders</RouterLink>
+                    <RouterLink to="/sell-order/create">Create sell order</RouterLink>
                 </div>
                 <span class="text-center" v-else>Authentication in Telegram and Metamask failed, access to tabs is
                     closed.</span>
@@ -86,7 +80,7 @@ declare global {
     }
 }
 window.onTelegramAuth = async function (user) {
-    await telegram.auth(user.username, user.id);
+    await telegram.auth(`@${user.username}`, user.id);
     await ensureExistedOfTrader();
 }
 

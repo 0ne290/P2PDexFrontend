@@ -1,11 +1,14 @@
 <script setup lang="ts">
 //import { RouterLink, RouterView } from 'vue-router'
 
+import { onMounted } from "vue";
 import Header from "@/components/TheHeader.vue";
 import { useMetamaskStore } from "@/stores/metamask"
 
-const metamask = useMetamaskStore();
-await metamask.init();
+onMounted(async () => {
+    const metamask = useMetamaskStore();
+    await metamask.init();
+});
 
 </script>
 
