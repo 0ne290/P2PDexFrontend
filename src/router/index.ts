@@ -5,20 +5,15 @@ import SellOrdersView from '../views/SellOrdersView.vue'
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-        // {
-        //     path: '/',
-        //     name: 'default',
-        //     component: CreateSellOrderView,
-        // },
         {
             path: '/sell-order/get-all',
             name: 'getAllSellOrders',
-            component: CreateSellOrderView,
+            component: SellOrdersView,
         },
         {
             path: '/sell-order/create',
             name: 'createSellOrder',
-            component: SellOrdersView,
+            component: CreateSellOrderView,
         },
     ],
 })

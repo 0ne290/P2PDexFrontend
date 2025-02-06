@@ -13,8 +13,29 @@ onMounted(async () => {
 
 <template>
 
-<div v-for="order in orders">
-    {{ order.seller }} | {{ order.crypto }} | {{ order.cryptoAmount }} | {{ order.fiat }} | {{ order.cryptoToFiatExchangeRate }} | {{ order.fiatAmount }} | {{ order.paymentMethodInfo }}
-</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Продавец</th>
+                <th>Криптовалюта</th>
+                <th>Количество</th>
+                <th>Фиатная валюта</th>
+                <th>Курс "Криптовалюта &rarr; Фиатная валюта"</th>
+                <th>Цена</th>
+                <th>Информация о способе оплаты</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="order in orders">
+                <td>{{ order.seller }}</td>
+                <td>{{ order.crypto }}</td>
+                <td>{{ order.cryptoAmount }}</td>
+                <td>{{ order.fiat }}</td>
+                <td>{{ order.cryptoToFiatExchangeRate }}</td>
+                <td>{{ order.fiatAmount }}</td>
+                <td>{{ order.paymentMethodInfo }}</td>
+            </tr>
+        </tbody>
+    </table>
 
 </template>
