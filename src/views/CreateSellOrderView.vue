@@ -11,9 +11,15 @@ const paymentMethodInfo = ref('');
 
 <template>
 
-<input type="text" v-model="cryptoAmount" placeholder="ETH amount">
-<input type="text" v-model="cryptoToFiatExchangeRate" placeholder="ETH to RUB exchange rate">
-<input type="text" v-model="paymentMethodInfo" placeholder="Payment method info">
-<button @click="createSellOrder(Number(cryptoAmount), Number(cryptoToFiatExchangeRate), paymentMethodInfo)">Create sell order</button>
+    <div class="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+        <span class="border border-2 second-border-color rounded d-flex flex-column justify-content-center align-items-center gap-3 p-5">
+        <input type="text" class="third-text-color first-background-color second-border-color border-0 border-bottom px-3 py-1" v-model="cryptoAmount" placeholder="ETH amount">
+        <input type="text" class="third-text-color first-background-color second-border-color border-0 border-bottom px-3 py-1" v-model="cryptoToFiatExchangeRate" placeholder="ETH to RUB exchange rate">
+        <input type="text" class="third-text-color first-background-color second-border-color border-0 border-bottom px-3 py-1" v-model="paymentMethodInfo" placeholder="Payment method info">
+        <button class="third-text-color first-background-color second-border-color rounded mt-5 px-3 py-1" @click="createSellOrder(Number(cryptoAmount), Number(cryptoToFiatExchangeRate), paymentMethodInfo)">
+            Create sell order
+        </button>
+        </span>
+    </div>
 
 </template>

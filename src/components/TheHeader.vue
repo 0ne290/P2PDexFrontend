@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col-6 border-start border-end border-2 second-border-color d-flex justify-content-around align-items-center">
-                <template class="text-center" v-if="telegram.isAuth && metamask.isAuth">
+                <template v-if="telegram.isAuth && metamask.isAuth">
                     <RouterLink to="/sell-order/get-all" custom v-slot="{ navigate }">
                         <div role="button" @click="navigate" class="second-text-color second-border-color border rounded-pill px-3 py-1">
                             Sell orders

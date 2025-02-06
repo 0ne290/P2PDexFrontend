@@ -15,7 +15,7 @@ onMounted(async () => {
 <template>
 
 <Header />
-<main class="main container second-border-color border rounded">
+<main class="main container third-border-color border rounded p-0">
     <RouterView />
 </main>
 
