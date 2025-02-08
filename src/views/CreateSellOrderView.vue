@@ -7,6 +7,12 @@ const cryptoAmount = ref('');
 const cryptoToFiatExchangeRate = ref('');
 const paymentMethodInfo = ref('');
 
+async function createSellOrderZ() {
+    await createSellOrder(Number(cryptoAmount.value), Number(cryptoToFiatExchangeRate.value), paymentMethodInfo.value);
+    
+    alert('Sell order is successfully created. Check "Sell orders" tab.')
+}
+
 </script>
 
 <template>
@@ -16,7 +22,7 @@ const paymentMethodInfo = ref('');
         <input type="text" class="third-text-color first-background-color second-border-color border-0 border-bottom px-3 py-1" v-model="cryptoAmount" placeholder="ETH amount">
         <input type="text" class="third-text-color first-background-color second-border-color border-0 border-bottom px-3 py-1" v-model="cryptoToFiatExchangeRate" placeholder="ETH to RUB exchange rate">
         <input type="text" class="third-text-color first-background-color second-border-color border-0 border-bottom px-3 py-1" v-model="paymentMethodInfo" placeholder="Payment method info">
-        <button class="third-text-color first-background-color second-border-color rounded mt-5 px-3 py-1" @click="createSellOrder(Number(cryptoAmount), Number(cryptoToFiatExchangeRate), paymentMethodInfo)">
+        <button class="third-text-color first-background-color second-border-color rounded mt-5 px-3 py-1" @click="createSellOrderZ">
             Create sell order
         </button>
         </span>
