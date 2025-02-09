@@ -4,10 +4,14 @@
 import { onMounted } from "vue";
 import Header from "@/components/TheHeader.vue";
 import { useMetamaskStore } from "@/stores/metamask"
+import { useTelegramStore } from "@/stores/telegram"
 
 onMounted(async () => {
     const metamask = useMetamaskStore();
+    const telegram = useTelegramStore();
+
     await metamask.init();
+    await telegram.init();
 });
 
 </script>

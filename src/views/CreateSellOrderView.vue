@@ -2,6 +2,7 @@
 
 import { ref } from "vue";
 import { createSellOrder } from "@/services/apiService";
+import { sendMessage } from "@/services/telegramService";
 
 const cryptoAmount = ref('');
 const cryptoToFiatExchangeRate = ref('');
@@ -10,6 +11,8 @@ const paymentMethodInfo = ref('');
 async function createSellOrderZ() {
     await createSellOrder(Number(cryptoAmount.value), Number(cryptoToFiatExchangeRate.value), paymentMethodInfo.value);
     
+    await sendMessage('Вы создали заказ на продажу.')
+
     alert('Sell order is successfully created. Check "Sell orders" tab.')
 }
 

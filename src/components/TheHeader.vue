@@ -18,15 +18,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 border-start border-end border-2 second-border-color d-flex justify-content-around align-items-center">
+            <div
+                class="col-6 border-start border-end border-2 second-border-color d-flex justify-content-around align-items-center">
                 <template v-if="telegram.isAuth && metamask.isAuth">
                     <RouterLink to="/sell-order/get-all" custom v-slot="{ navigate }">
-                        <div role="button" @click="navigate" class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                        <div role="button" @click="navigate"
+                            class="second-text-color second-border-color border rounded-pill px-3 py-1">
                             Sell orders
                         </div>
                     </RouterLink>
                     <RouterLink to="/sell-order/create" custom v-slot="{ navigate }">
-                        <div role="button" @click="navigate" class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                        <div role="button" @click="navigate"
+                            class="second-text-color second-border-color border rounded-pill px-3 py-1">
                             Create sell order
                         </div>
                     </RouterLink>
@@ -56,6 +59,7 @@ import { useTemplateRef, onMounted } from 'vue'
 import { useTelegramStore } from '@/stores/telegram'
 import { useMetamaskStore } from '@/stores/metamask'
 import { ensureExistedOfTrader } from '@/services/apiService'
+import { sendMessage } from '@/services/telegramService'
 
 const telegram = useTelegramStore();
 const metamask = useMetamaskStore();
@@ -88,8 +92,11 @@ declare global {
     }
 }
 window.onTelegramAuth = async function (user) {
-    await telegram.auth(`@${user.username}`, user.id);
+    telegram.auth(`@${user.username}`, user.id);
+
     await ensureExistedOfTrader();
+
+    await sendMessage('Вы аутентифицировались в P2P DEX.');
 }
 
 const telegramAuthDiv = useTemplateRef('telegram-auth-div');
