@@ -2,6 +2,9 @@
 
 import { ref, onMounted } from "vue";
 import { getAllOrders } from "@/services/apiService";
+import { useTelegramStore } from '@/stores/telegram'
+
+const telegram = useTelegramStore();
 
 const orders = ref();
 
@@ -27,13 +30,18 @@ onMounted(async () => {
         </thead>
         <tbody>
             <tr v-for="order in orders">
-                <td>{{ order.seller }}</td>
+                <td>{{ order.sellerName == null ? order.sellerId : `${order.sellerId}, ${order.sellerName}` }}</td>
                 <td>{{ order.crypto }}</td>
                 <td>{{ order.cryptoAmount }}</td>
                 <td>{{ order.fiat }}</td>
                 <td>{{ order.cryptoToFiatExchangeRate }}</td>
                 <td>{{ order.fiatAmount }}</td>
                 <td>{{ order.paymentMethodInfo }}</td>
+                <td v-if="order.sellerId != telegram.userId">
+                    <div role="button" class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                        Купить
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>

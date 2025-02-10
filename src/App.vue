@@ -6,10 +6,10 @@ import Header from "@/components/TheHeader.vue";
 import { useMetamaskStore } from "@/stores/metamask"
 import { useTelegramStore } from "@/stores/telegram"
 
-onMounted(async () => {
-    const metamask = useMetamaskStore();
-    const telegram = useTelegramStore();
+const telegram = useTelegramStore();
+const metamask = useMetamaskStore();
 
+onMounted(async () => {
     await metamask.init();
     await telegram.init();
 });
@@ -20,7 +20,7 @@ onMounted(async () => {
 
 <Header />
 <main class="main container third-border-color border rounded p-0">
-    <RouterView />
+    <RouterView v-if="telegram.isAuth && metamask.isAuth"/>
 </main>
 
 </template>

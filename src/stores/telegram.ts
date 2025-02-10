@@ -16,13 +16,13 @@ export const useTelegramStore = defineStore('telegram', () => {
         await client.value.connect();
     }
 
-    const userName = ref('')
+    const userName = ref<string | null>(null)
 
     const userId = ref(0)
 
     const isAuth = ref(false)
 
-    function auth(name: string, id: number) {
+    function auth(id: number, name: string | null = null) {
         userName.value = name;
         userId.value = id;
         isAuth.value = true;

@@ -40,7 +40,7 @@
             <div class="col-3">
                 <div class="row h-100">
                     <div class="col p-0 d-flex justify-content-center align-items-center">
-                        <span class="text-center" v-if="telegram.isAuth">{{ telegram.userName }}</span>
+                        <span class="text-center" v-if="telegram.isAuth">{{ telegram.userName == null ? telegram.userId : `${telegram.userId}, ${telegram.userName}` }}</span>
                         <span class="text-center" v-else>Please authenticate in Telegram.</span>
                     </div>
                     <div ref="telegram-auth-div"
@@ -92,7 +92,7 @@ declare global {
     }
 }
 window.onTelegramAuth = async function (user) {
-    telegram.auth(`@${user.username}`, user.id);
+    telegram.auth(user.id, user.username === undefined ? null : `@${user.username}`);
 
     await ensureExistedOfTrader();
 
