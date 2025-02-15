@@ -38,9 +38,13 @@ onMounted(async () => {
                 <td>{{ order.fiatAmount }}</td>
                 <td>{{ order.paymentMethodInfo }}</td>
                 <td v-if="order.sellerId != telegram.userId">
-                    <div role="button" class="second-text-color second-border-color border rounded-pill px-3 py-1">
-                        Купить
-                    </div>
+                    <RouterLink :to="{ name: 'getSellOrder', params: { guid: order.guid } }" custom
+                        v-slot="{ navigate }">
+                        <div role="button" @click="navigate"
+                            class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                            Купить
+                        </div>
+                    </RouterLink>
                 </td>
             </tr>
         </tbody>
