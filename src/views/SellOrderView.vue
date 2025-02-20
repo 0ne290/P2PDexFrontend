@@ -60,16 +60,28 @@ onMounted(async () => {
 <template>
 
     <div>
+        <p>{{ order.status }}</p>
+        <p>{{ order.sellerId }}</p>
+        <p>{{ order.sellerName }}</p>
+        <p>{{ order.buyerId }}</p>
+        <p>{{ order.buyerName }}</p>
+        <p>{{ order.crypto }}</p>
+        <p>{{ order.cryptoAmount }}</p>
+        <p>{{ order.fiat }}</p>
+        <p>{{ order.cryptoToFiatExchangeRate }}</p>
+        <p>{{ order.fiatAmount }}</p>
+        <p>{{ order.paymentMethodInfo }}</p>
+        <br>
         <template v-if="order.status == 'SellerToExchangerTransferTransactionConfirmed'">
             <template v-if="order.sellerId == telegram.userId">
-                Ждите отклик покупателя.
+                <p>Ждите отклик покупателя.</p>
             </template>
             <template v-else>
-                Откликнуться.
+                <p>Откликнуться.</p>
             </template>
         </template>
         <template v-else>
-            Статус "{{ order.status }}" заказов не поддерживается.
+            <p>Статус "{{ order.status }}" заказов не поддерживается.</p>
         </template>
     </div>
 
