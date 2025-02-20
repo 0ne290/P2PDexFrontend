@@ -26,7 +26,9 @@ export async function getUserOrders() {
 }
 
 export async function getAllOrders() {
-    const response = await fetch(`${apiUrl}/sell-order/get-all`, {
+    const telegram = useTelegramStore();
+
+    const response = await fetch(`${apiUrl}/sell-order/get-all/${telegram.userId}`, {
         method: "GET",
         mode: "cors"
     });
@@ -36,6 +38,26 @@ export async function getAllOrders() {
     }
 
     return (await response.json()).data.sellOrders;
+}
+
+export async function getOrder(guid: string) {
+    const telegram = useTelegramStore();
+
+    const response = await fetch(`${apiUrl}/sell-order/get/${telegram.userId}:${guid}`, {
+        method: "GET",
+        mode: "cors"
+    });
+    const responseBody = await response.json();
+
+    // Если бы на бэкенде была полноценная JWT-аутентификация, то вместо этого бреда, я бы проверял тут "status == 403"
+    if (response.status == 400 && responseBody.data.message == "Trader is not a buyer.") {
+        return null;
+    }
+    if (response.status == 200) {
+        return responseBody.data.sellOrder;
+    }
+
+    throw new Error("Unexpected error.");
 }
 
 export async function createSellOrder(cryptoAmount: number, cryptoToFiatExchangeRate: number, paymentMethodInfo: string) {
