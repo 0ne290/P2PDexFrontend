@@ -29,24 +29,19 @@ onMounted(async () => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="order in orders">
-                <td>{{ order.sellerName == null ? order.sellerId : `${order.sellerId}, ${order.sellerName}` }}</td>
-                <td>{{ order.crypto }}</td>
-                <td>{{ order.cryptoAmount }}</td>
-                <td>{{ order.fiat }}</td>
-                <td>{{ order.cryptoToFiatExchangeRate }}</td>
-                <td>{{ order.fiatAmount }}</td>
-                <td>{{ order.paymentMethodInfo }}</td>
-                <td v-if="order.sellerId != telegram.userId">
-                    <RouterLink :to="{ name: 'getSellOrder', params: { guid: order.guid } }" custom
-                        v-slot="{ navigate }">
-                        <div role="button" @click="navigate"
-                            class="second-text-color second-border-color border rounded-pill px-3 py-1">
-                            Купить
-                        </div>
-                    </RouterLink>
-                </td>
-            </tr>
+            <template v-for="order in orders">
+                <RouterLink :to="{ name: 'getSellOrder', params: { guid: order.guid } }" custom v-slot="{ navigate }">
+                    <tr role="button" @click="navigate">
+                        <td>{{ order.sellerName == null ? order.sellerId : `${order.sellerId}, ${order.sellerName}` }}</td>
+                        <td>{{ order.crypto }}</td>
+                        <td>{{ order.cryptoAmount }}</td>
+                        <td>{{ order.fiat }}</td>
+                        <td>{{ order.cryptoToFiatExchangeRate }}</td>
+                        <td>{{ order.fiatAmount }}</td>
+                        <td>{{ order.paymentMethodInfo }}</td>
+                    </tr>
+                </RouterLink>
+            </template>
         </tbody>
     </table>
 

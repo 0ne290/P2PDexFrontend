@@ -13,33 +13,16 @@ const props = defineProps({
     guid: String
 });
 
+// Вот это хорошо бы заменить на onUnmounted()
 onBeforeRouteLeave(async (_, __) => {
-    await sellOrderHub.stop();
+    if (trigger.value) {
+        await sellOrderHub.stop();
+    }
 })
 
 const order = ref<any>();
-
-const sellOrderHub = new signalR.HubConnectionBuilder()
-    .withUrl("https://localhost/api/sell-order-hub", {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
-    })
-    .build();
-
-sellOrderHub.on("StatusChangedNotificationHandler", async function (newStatus) {
-    if (newStatus == "RespondedByBuyer") {
-        order.value = await getOrder(props.guid!);
-        if (order.value == null) {
-            alert('У вас нет доступа к данному заказу.');
-
-            router.push({ name: 'getAllSellOrders' });
-
-            return;
-        }
-    }
-
-    order.value.status = newStatus;
-});
+const trigger = ref<boolean>(false);
+let sellOrderHub: signalR.HubConnection;
 
 onMounted(async () => {
     order.value = await getOrder(props.guid!);
@@ -51,15 +34,37 @@ onMounted(async () => {
         return;
     }
 
+    sellOrderHub = new signalR.HubConnectionBuilder()
+        .withUrl("https://localhost/api/sell-order-hub", {
+            skipNegotiation: true,
+            transport: signalR.HttpTransportType.WebSockets
+        })
+        .build();
+    sellOrderHub.on("StatusChangedNotificationHandler", async function (newStatus) {
+        if (newStatus == "RespondedByBuyer") {
+            order.value = await getOrder(props.guid!);
+            if (order.value == null) {
+                router.push({ name: 'getAllSellOrders' });
+
+                return;
+            }
+        }
+
+        order.value.status = newStatus;
+    });
+
     await sellOrderHub.start();
-    await sellOrderHub.invoke("SubscribeToStatusChangeNotification", props.guid)
+    await sellOrderHub.invoke("SubscribeToStatusChangeNotification", props.guid);
+
+    trigger.value = true;
 });
 
 </script>
 
 <template>
 
-    <div>
+    <div v-if="trigger">
+        <p>Mock</p>
         <p>{{ order.status }}</p>
         <p>{{ order.sellerId }}</p>
         <p>{{ order.sellerName }}</p>

@@ -37,7 +37,7 @@ export async function getAllOrders() {
         throw new Error("Unexpected error.");
     }
 
-    return (await response.json()).data.sellOrders;
+    return (await response.json()).sellOrders;
 }
 
 export async function getOrder(guid: string) {
@@ -47,14 +47,17 @@ export async function getOrder(guid: string) {
         method: "GET",
         mode: "cors"
     });
+
     const responseBody = await response.json();
 
+    alert(response.status + responseBody);
+
     // Если бы на бэкенде была полноценная JWT-аутентификация, то вместо этого бреда, я бы проверял тут "status == 403"
-    if (response.status == 400 && responseBody.data.message == "Trader is not a buyer.") {
+    if (response.status == 400 && responseBody.message == "Trader is neither a buyer nor a seller.") {
         return null;
     }
     if (response.status == 200) {
-        return responseBody.data.sellOrder;
+        return responseBody.sellOrder;
     }
 
     throw new Error("Unexpected error.");
@@ -107,7 +110,7 @@ async function getExchangerAccountAddress(): Promise<string> {
         throw new Error("Unexpected error.");
     }
 
-    return (await response.json()).data.accountAddress
+    return (await response.json()).accountAddress
 }
 
 async function calculateFinalCryptoAmountForTransfer(cryptoAmount: number): Promise<number> {
@@ -120,5 +123,5 @@ async function calculateFinalCryptoAmountForTransfer(cryptoAmount: number): Prom
         throw new Error("Unexpected error.");
     }
 
-    return (await response.json()).data.finalCryptoAmount
+    return (await response.json()).finalCryptoAmount
 }
