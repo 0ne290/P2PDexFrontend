@@ -16,7 +16,7 @@ onMounted(async () => {
 
 <template>
 
-    <table>
+    <table class="sell-orders-table">
         <thead>
             <tr>
                 <th>Продавец</th>
