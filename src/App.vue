@@ -19,7 +19,7 @@ onMounted(async () => {
 <template>
 
 <Header />
-<main class="main container third-border-color border rounded p-0">
+<main class="main container first-border-color border rounded p-0">
     <RouterView v-if="telegram.isAuth && metamask.isAuth"/>
 </main>
 
