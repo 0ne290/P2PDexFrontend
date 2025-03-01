@@ -63,31 +63,64 @@ onMounted(async () => {
 
 <template>
 
-    <div v-if="trigger">
-        <p>Mock</p>
-        <p>{{ order.status }}</p>
-        <p>{{ order.sellerId }}</p>
-        <p>{{ order.sellerName }}</p>
-        <p>{{ order.buyerId }}</p>
-        <p>{{ order.buyerName }}</p>
-        <p>{{ order.crypto }}</p>
-        <p>{{ order.cryptoAmount }}</p>
-        <p>{{ order.fiat }}</p>
-        <p>{{ order.cryptoToFiatExchangeRate }}</p>
-        <p>{{ order.fiatAmount }}</p>
-        <p>{{ order.paymentMethodInfo }}</p>
-        <br>
-        <template v-if="order.status == 'SellerToExchangerTransferTransactionConfirmed'">
-            <template v-if="order.sellerId == telegram.userId">
-                <p>Ждите отклик покупателя.</p>
-            </template>
-            <template v-else>
-                <p>Откликнуться.</p>
-            </template>
-        </template>
-        <template v-else>
-            <p>Статус "{{ order.status }}" заказов не поддерживается.</p>
-        </template>
+
+    <div class="container" v-if="trigger">
+        <div class="row p-0 pb-5 border-2 border-bottom second-border-color">
+            <table class="sell-order-table">
+                <tbody>
+                    <tr>
+                        <th>Статус</th>
+                        <td>{{ order.status }}</td>
+                    </tr>
+                    <tr>
+                        <th>Продавец</th>
+                        <td>{{ order.sellerName == null ? order.sellerId : `${order.sellerId}, ${order.sellerName}` }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Покупатель</th>
+                        <td>{{ order.buyerName == null ? order.buyerId : `${order.buyerId}, ${order.buyerName}` }}</td>
+                    </tr>
+                    <tr>
+                        <th>Криптовалюта</th>
+                        <td>{{ order.crypto }}</td>
+                    </tr>
+                    <tr>
+                        <th>Количество</th>
+                        <td>{{ order.cryptoAmount }}</td>
+                    </tr>
+                    <tr>
+                        <th>Фиатная валюта</th>
+                        <td>{{ order.fiat }}</td>
+                    </tr>
+                    <tr>
+                        <th>Курс "Криптовалюта &rarr; Фиатная валюта"</th>
+                        <td>{{ order.cryptoToFiatExchangeRate }}</td>
+                    </tr>
+                    <tr>
+                        <th>Цена</th>
+                        <td>{{ order.fiatAmount }}</td>
+                    </tr>
+                    <tr>
+                        <th>Информация о способе оплаты</th>
+                        <td>{{ order.paymentMethodInfo }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row p-0 text-center pt-5">
+                <template v-if="order.status == 'SellerToExchangerTransferTransactionConfirmed'">
+                    <template v-if="order.sellerId == telegram.userId">
+                        <p>Ждите отклик покупателя.</p>
+                    </template>
+                    <template v-else>
+                        <p>Откликнуться.</p>
+                    </template>
+                </template>
+                <template v-else>
+                    <p>Статус "{{ order.status }}" заказов не поддерживается.</p>
+                </template>
+        </div>
     </div>
 
 </template>

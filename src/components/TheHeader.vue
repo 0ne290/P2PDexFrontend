@@ -1,20 +1,20 @@
 <template>
 
-    <header class="header container-fluid border-bottom border-2 second-border-color">
+    <div class="container-fluid h-100 border-bottom border-2 second-border-color">
         <div class="row h-100">
             <div class="col-3">
                 <div class="row h-100">
-                    <div class="col p-0 d-flex justify-content-center align-items-center">
+                    <div class="col d-flex justify-content-center align-items-center">
                         <span class="text-center">
-                            <i class="fa-solid fa-right-to-bracket second-text-color fa-2xl"
+                            <i class="fa-solid fa-right-to-bracket second-text-color fa-2xl" role="button"
                                 @click="metamask.auth"></i><br />
-                            Authenticate in Metamask
+                            Аутентифицироваться в Metamask
                         </span>
                     </div>
                     <div
                         class="col border-start border-2 second-border-color d-flex justify-content-center align-items-center">
                         <span class="text-center" v-if="metamask.isAuth">{{ metamask.walletBalance }} ETH</span>
-                        <span class="text-center" v-else>Please authenticate in Metamask.</span>
+                        <span class="text-center" v-else>Пожалуйста, аутентифицируйтесь в Metamask.</span>
                     </div>
                 </div>
             </div>
@@ -24,24 +24,25 @@
                     <RouterLink to="/sell-order/get-all" custom v-slot="{ navigate }">
                         <div role="button" @click="navigate"
                             class="second-text-color second-border-color border rounded-pill px-3 py-1">
-                            Sell orders
+                            Заказы на продажу
                         </div>
                     </RouterLink>
                     <RouterLink to="/sell-order/create" custom v-slot="{ navigate }">
                         <div role="button" @click="navigate"
                             class="second-text-color second-border-color border rounded-pill px-3 py-1">
-                            Create sell order
+                            Создать заказ на продажу
                         </div>
                     </RouterLink>
                 </template>
-                <span class="text-center" v-else>Authentication in Telegram and Metamask failed, access to tabs is
-                    closed.</span>
+                <span class="text-center" v-else>Пожалуйста, аутентифицируйтесь в Metamask и Telegram.</span>
             </div>
             <div class="col-3">
                 <div class="row h-100">
                     <div class="col p-0 d-flex justify-content-center align-items-center">
-                        <span class="text-center" v-if="telegram.isAuth">{{ telegram.userName == null ? telegram.userId : `${telegram.userId}, ${telegram.userName}` }}</span>
-                        <span class="text-center" v-else>Please authenticate in Telegram.</span>
+                        <span class="text-center" v-if="telegram.isAuth">{{ telegram.userName == null ? telegram.userId
+                            :
+                            `${telegram.userId}, ${telegram.userName}` }}</span>
+                        <span class="text-center" v-else>Пожалуйста, аутентифицируйтесь в Telegram.</span>
                     </div>
                     <div ref="telegram-auth-div"
                         class="col border-start border-2 second-border-color d-flex justify-content-center align-items-center">
@@ -49,7 +50,7 @@
                 </div>
             </div>
         </div>
-    </header>
+    </div>
 
 </template>
 

@@ -18,12 +18,14 @@ onMounted(async () => {
 
 <template>
 
-<Header />
-<main class="main container first-border-color border rounded p-0">
-    <RouterView v-if="telegram.isAuth && metamask.isAuth"/>
-</main>
+    <header class="header">
+        <Header />
+    </header>
+
+    <main class="main">
+        <RouterView v-if="telegram.isAuth && metamask.isAuth" />
+    </main>
 
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

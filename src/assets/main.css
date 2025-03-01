@@ -63,9 +63,12 @@
 
 .main {
     margin-top: 5vh !important;
-    height: 77vh !important;
+    min-height: 77vh !important;
 }
 
+.inherit-min-height {
+    min-height: inherit;
+}
 
 .sell-orders-table {
     border-collapse: collapse !important;
@@ -79,19 +82,19 @@
 }
 
 .sell-orders-table th:not(:nth-child(5)):not(:nth-child(7)),
-td:not(:nth-child(5)):not(:nth-child(7)) {
+.sell-orders-table td:not(:nth-child(5)):not(:nth-child(7)) {
     width: 12% !important;
 }
 
 .sell-orders-table th:nth-child(5),
-th:nth-child(7),
-td:nth-child(5),
-td:nth-child(7) {
+.sell-orders-table th:nth-child(7),
+.sell-orders-table td:nth-child(5),
+.sell-orders-table td:nth-child(7) {
     width: 20% !important;
 }
 
 .sell-orders-table th,
-td {
+.sell-orders-table td {
     text-align: center !important;
 
     padding-right: 1rem !important;
@@ -101,7 +104,7 @@ td {
     padding-bottom: 0.25rem !important;
 }
 
-.sell-orders-table th:not(:nth-child(7)), td:not(:nth-child(7)) {
+.sell-orders-table th:not(:nth-child(7)), .sell-orders-table td:not(:nth-child(7)) {
     border-right: 2px solid var(--second-color) !important;
 }
 
@@ -115,4 +118,34 @@ td {
 
 .sell-orders-table tbody tr:hover {
     border: 2px solid var(--second-color) !important;
+}
+
+
+.sell-order-table {
+    border-collapse: collapse !important;
+}
+
+.sell-order-table * {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0, none, var(--first-color) !important;
+}
+
+.sell-order-table th, .sell-order-table td {
+    width: 50% !important;
+
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
+
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+}
+
+.sell-order-table th {
+    border-right: 2px solid var(--second-color) !important;
+    text-align: right;
+}
+
+.sell-order-table td {
+    text-align: left;
 }
