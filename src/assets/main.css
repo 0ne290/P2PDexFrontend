@@ -123,6 +123,7 @@
 
 .sell-order-table {
     border-collapse: collapse !important;
+    width: 100%;
 }
 
 .sell-order-table * {

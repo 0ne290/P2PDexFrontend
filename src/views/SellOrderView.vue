@@ -44,6 +44,8 @@ onMounted(async () => {
         if (newStatus == "RespondedByBuyer") {
             order.value = await getOrder(props.guid!);
             if (order.value == null) {
+                alert('На данный заказ откликнулся другой покупатель.');
+
                 router.push({ name: 'getAllSellOrders' });
 
                 return;
@@ -51,13 +53,59 @@ onMounted(async () => {
         }
 
         order.value.status = newStatus;
+        translateOrderStatusIntoRussian(order.value);
     });
 
     await sellOrderHub.start();
     await sellOrderHub.invoke("SubscribeToStatusChangeNotification", props.guid);
 
+    translateOrderStatusIntoRussian(order.value)
     trigger.value = true;
 });
+
+function translateOrderStatusIntoRussian(order: any) {
+    switch (order.status) {
+        case 'Created':
+            order.status = 'Ожидает подтверждение транзакции перевода криптовалюты продавца на эскроу-счет. Сервер запрашивает подтверждение у блокчейна каждые две минуты.'
+
+            break;
+
+        case 'SellerToExchangerTransferTransactionConfirmed':
+            order.status = 'Ожидает отклик покупателя'
+
+            break;
+
+        case 'RespondedByBuyer':
+            order.status = 'Ожидает подтверждение покупателем перевода фиата'
+
+            break;
+
+        case 'TransferFiatToSellerConfirmedByBuyer':
+            order.status = 'Ожидает подтверждение продавцом получения фиата'
+
+            break;
+
+        case 'ReceiptFiatFromBuyerConfirmedBySeller':
+            order.status = 'Ожидает подтверждение транзакции перевода криптовалюты от продавца к покупателю с эскроу-счета. Сервер запрашивает подтверждение у блокчейна каждые две минуты'
+
+            break;
+
+        case 'Canceled':
+            alert('АЛЯРМ-АЛЯРМ-АЛЯРМ!!!!!!!!!')
+
+            order.status = 'Отменен'
+
+            break;
+
+        case 'ExchangerToBuyerTransferTransactionConfirmed':
+            order.status = 'Завершен'
+
+            break;
+
+        default:
+            alert('АЛЯРМ!!!')
+    }
+}
 
 </script>
 
@@ -65,7 +113,7 @@ onMounted(async () => {
 
 
     <div class="container" v-if="trigger">
-        <div class="row p-0 pb-5 border-2 border-bottom second-border-color">
+        <div class="p-0 pb-5 border-2 border-bottom second-border-color">
             <table class="sell-order-table">
                 <tbody>
                     <tr>
@@ -108,18 +156,22 @@ onMounted(async () => {
                 </tbody>
             </table>
         </div>
-        <div class="row p-0 text-center pt-5">
-                <template v-if="order.status == 'SellerToExchangerTransferTransactionConfirmed'">
-                    <template v-if="order.sellerId == telegram.userId">
-                        <p>Ждите отклик покупателя.</p>
-                    </template>
-                    <template v-else>
-                        <p>Откликнуться.</p>
-                    </template>
+        <div class="p-0 pt-5 d-flex justify-content-around align-items-center">
+            <template v-if="order.status == 'Ожидает отклик покупателя'">
+                <template v-if="order.sellerId == telegram.userId">
+                    <div class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                        Ждите отклик покупателя
+                    </div>
                 </template>
                 <template v-else>
-                    <p>Статус "{{ order.status }}" заказов не поддерживается.</p>
+                    <div role="button" class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                        Откликнуться
+                    </div>
                 </template>
+            </template>
+            <template v-else>
+                <p>Статус "{{ order.status }}" заказов не поддерживается.</p>
+            </template>
         </div>
     </div>
 
