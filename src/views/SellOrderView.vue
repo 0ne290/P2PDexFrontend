@@ -166,7 +166,7 @@ function translateOrderStatusIntoRussian(order: any) {
             </template>
             <template v-else-if="order.status == 'Ожидает отклик покупателя'">
                 <template v-if="order.sellerId == telegram.userId">
-                    <div class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                    <div class="second-text-color second-border-color border rounded px-3 py-1">
                         Ждите отклик покупателя
                     </div>
                 </template>
@@ -179,14 +179,14 @@ function translateOrderStatusIntoRussian(order: any) {
             </template>
             <template v-else-if="order.status == 'Ожидает подтверждение покупателем перевода фиата'">
                 <template v-if="order.sellerId == telegram.userId">
-                    <div class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                    <div class="second-text-color second-border-color border rounded px-3 py-1">
                         Ждите подтверждение покупателем перевода фиата
                     </div>
                 </template>
                 <template v-else>
                     <div role="button" class="second-text-color second-border-color border rounded-pill px-3 py-1"
                         @click="confirmTransferFiatToSellerByBuyerForSellOrder(props.guid!, order.sellerId)">
-                        Подтвердить перевод фиата покупателю
+                        Подтвердить перевод фиата продавцу
                     </div>
                 </template>
             </template>
@@ -198,20 +198,20 @@ function translateOrderStatusIntoRussian(order: any) {
                     </div>
                 </template>
                 <template v-else>
-                    <div class="second-text-color second-border-color border rounded-pill px-3 py-1">
-                        Ждите подтверждение покупателем получения фиата
+                    <div class="second-text-color second-border-color border rounded px-3 py-1">
+                        Ждите подтверждение продавцом получения фиата
                     </div>
                 </template>
             </template>
             <template
                 v-if="order.status == 'Ожидает подтверждение транзакции перевода криптовалюты от продавца к покупателю с эскроу-счета. Сервер запрашивает подтверждение у блокчейна каждые две минуты'">
-                <div class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                <div class="second-text-color second-border-color border rounded px-3 py-1">
                     Ждите подтверждение транзакции перевода криптовалюты от продавца к покупателю с эскроу-счета. Сервер
                     запрашивает подтверждение у блокчейна каждые две минуты
                 </div>
             </template>
             <template v-if="order.status == 'Завершен'">
-                <div class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                <div class="second-text-color second-border-color border rounded px-3 py-1">
                     Заказ завершен
                 </div>
             </template>

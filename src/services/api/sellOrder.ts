@@ -39,8 +39,6 @@ export async function get(guid: string) {
 
     const responseBody = await response.json();
 
-    alert(response.status + responseBody);
-
     // Если бы на бэкенде была полноценная JWT-аутентификация, то вместо этого бреда, я бы проверял тут "status == 403"
     if (response.status == 400 && responseBody.message == "Trader is neither a buyer nor a seller.") {
         return null;
@@ -88,7 +86,7 @@ export async function create(cryptoAmount: number, cryptoToFiatExchangeRate: num
         throw new Error("Unexpected error.");
     }
 
-    await sendMessage('Вы создали заказ на продажу. Другие пользователи смогут его увидеть после того, как транзакция перевода криптовалюты на эскроу-счет будет подтверждена. Сервер запрашивает подтверждение у блокчейна каждые две минуты.')
+    await sendMessage('Вы создали заказ на продажу. Другие пользователи смогут его увидеть на сайте после того, как транзакция перевода криптовалюты на эскроу-счет будет подтверждена. Сервер запрашивает подтверждение у блокчейна каждые две минуты.')
 }
 
 export async function respondByBuyer(guid: string, sellerId: number) {
@@ -112,8 +110,8 @@ export async function respondByBuyer(guid: string, sellerId: number) {
         throw new Error("Unexpected error.");
     }
 
-    await sendMessage('Вы откликнулись на заказ на продажу. Переведите фиат продавцу и подтвердите на сайте перевод.');
-    await sendMessageTo(sellerId, 'На ваш заказ на продажу откликнулись. Ждите подтверждение на сайте перевода фиата покупателем.');
+    await sendMessage('Вы откликнулись на заказ на продажу. Переведите фиат продавцу и подтвердите перевод на сайте.');
+    await sendMessageTo(sellerId, 'На ваш заказ на продажу откликнулись. Ждите подтверждение покупателем перевода фиата.');
 }
 
 export async function confirmTransferFiatToSellerByBuyer(guid: string, sellerId: number) {
@@ -135,7 +133,7 @@ export async function confirmTransferFiatToSellerByBuyer(guid: string, sellerId:
         throw new Error("Unexpected error.");
     }
 
-    await sendMessage('Вы подтвердили перевод фиата продавцу за заказ на продажу. Ждите подтверждение на сайте получения фиата продавцом.');
+    await sendMessage('Вы подтвердили перевод фиата продавцу за заказ на продажу. Ждите подтверждение продавцом получения фиата.');
     await sendMessageTo(sellerId, 'Покупатель подтвердил перевод фиата за ваш заказ на продажу. Подтвердите на сайте получение фиата от покупателя.');
 }
 
