@@ -6,9 +6,22 @@ import { useTelegramStore } from '@/stores/telegram'
 export async function sendMessage(message: string) {
     const telegram = useTelegramStore();
 
-    const result = await telegram.client!.invoke(
+    await telegram.client!.invoke(
         new Api.messages.SendMessage({
             peer: telegram.userId,
+            message: message,
+            randomId: generateRandomId(),
+            silent: false
+        })
+    );
+}
+
+export async function sendMessageTo(userId: number, message: string) {
+    const telegram = useTelegramStore();
+
+    await telegram.client!.invoke(
+        new Api.messages.SendMessage({
+            peer: userId,
             message: message,
             randomId: generateRandomId(),
             silent: false

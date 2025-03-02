@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { ref, onMounted } from "vue";
-import { getAllOrders } from "@/services/apiService";
+import { getAll as getAllSellOrders } from "@/services/api/sellOrder";
 import { useTelegramStore } from '@/stores/telegram'
 
 const telegram = useTelegramStore();
@@ -9,7 +9,7 @@ const telegram = useTelegramStore();
 const orders = ref();
 
 onMounted(async () => {
-    orders.value = await getAllOrders();
+    orders.value = await getAllSellOrders();
 });
 
 </script>

@@ -59,8 +59,8 @@
 import { useTemplateRef, onMounted } from 'vue'
 import { useTelegramStore } from '@/stores/telegram'
 import { useMetamaskStore } from '@/stores/metamask'
-import { ensureExistedOfTrader } from '@/services/apiService'
-import { sendMessage } from '@/services/telegramService'
+import { ensureExistedOfTrader } from '@/services/api/general'
+import { sendMessage } from '@/services/telegram'
 
 const telegram = useTelegramStore();
 const metamask = useMetamaskStore();

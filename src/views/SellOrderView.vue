@@ -4,7 +4,7 @@ import * as signalR from "@microsoft/signalr";
 import { ref, onMounted } from 'vue';
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import { useTelegramStore } from '@/stores/telegram'
-import { getOrder } from "@/services/apiService";
+import { get as getSellOrder, respondByBuyer as respondToSellOrderByBuyer, confirmTransferFiatToSellerByBuyer as confirmTransferFiatToSellerByBuyerForSellOrder, confirmReceiptFiatFromBuyerBySeller as confirmReceiptFiatFromBuyerBySellerForSellOrder } from "@/services/api/sellOrder";
 
 const telegram = useTelegramStore();
 const router = useRouter();
@@ -25,7 +25,7 @@ const trigger = ref<boolean>(false);
 let sellOrderHub: signalR.HubConnection;
 
 onMounted(async () => {
-    order.value = await getOrder(props.guid!);
+    order.value = await getSellOrder(props.guid!);
     if (order.value == null) {
         alert('У вас нет доступа к данному заказу.');
 
@@ -42,7 +42,7 @@ onMounted(async () => {
         .build();
     sellOrderHub.on("StatusChangedNotificationHandler", async function (newStatus) {
         if (newStatus == "RespondedByBuyer") {
-            order.value = await getOrder(props.guid!);
+            order.value = await getSellOrder(props.guid!);
             if (order.value == null) {
                 alert('На данный заказ откликнулся другой покупатель.');
 
@@ -66,7 +66,7 @@ onMounted(async () => {
 function translateOrderStatusIntoRussian(order: any) {
     switch (order.status) {
         case 'Created':
-            order.status = 'Ожидает подтверждение транзакции перевода криптовалюты продавца на эскроу-счет. Сервер запрашивает подтверждение у блокчейна каждые две минуты.'
+            order.status = 'Ожидает подтверждение транзакции перевода криптовалюты продавца на эскроу-счет. Сервер запрашивает подтверждение у блокчейна каждые две минуты'
 
             break;
 
@@ -157,20 +157,63 @@ function translateOrderStatusIntoRussian(order: any) {
             </table>
         </div>
         <div class="p-0 pt-5 d-flex justify-content-around align-items-center">
-            <template v-if="order.status == 'Ожидает отклик покупателя'">
+            <template
+                v-if="order.status == 'Ожидает подтверждение транзакции перевода криптовалюты продавца на эскроу-счет. Сервер запрашивает подтверждение у блокчейна каждые две минуты'">
+                <div class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                    Ждите подтверждение транзакции перевода криптовалюты от продавца на эскроу-счет. Сервер запрашивает
+                    подтверждение у блокчейна каждые две минуты
+                </div>
+            </template>
+            <template v-else-if="order.status == 'Ожидает отклик покупателя'">
                 <template v-if="order.sellerId == telegram.userId">
                     <div class="second-text-color second-border-color border rounded-pill px-3 py-1">
                         Ждите отклик покупателя
                     </div>
                 </template>
                 <template v-else>
-                    <div role="button" class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                    <div role="button" class="second-text-color second-border-color border rounded-pill px-3 py-1"
+                        @click="respondToSellOrderByBuyer(props.guid!, order.sellerId)">
                         Откликнуться
                     </div>
                 </template>
             </template>
-            <template v-else>
-                <p>Статус "{{ order.status }}" заказов не поддерживается.</p>
+            <template v-else-if="order.status == 'Ожидает подтверждение покупателем перевода фиата'">
+                <template v-if="order.sellerId == telegram.userId">
+                    <div class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                        Ждите подтверждение покупателем перевода фиата
+                    </div>
+                </template>
+                <template v-else>
+                    <div role="button" class="second-text-color second-border-color border rounded-pill px-3 py-1"
+                        @click="confirmTransferFiatToSellerByBuyerForSellOrder(props.guid!, order.sellerId)">
+                        Подтвердить перевод фиата покупателю
+                    </div>
+                </template>
+            </template>
+            <template v-else-if="order.status == 'Ожидает подтверждение продавцом получения фиата'">
+                <template v-if="order.sellerId == telegram.userId">
+                    <div role="button" class="second-text-color second-border-color border rounded-pill px-3 py-1"
+                        @click="confirmReceiptFiatFromBuyerBySellerForSellOrder(props.guid!, order.buyerId)">
+                        Подтвердить получение фиата от покупателя
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                        Ждите подтверждение покупателем получения фиата
+                    </div>
+                </template>
+            </template>
+            <template
+                v-if="order.status == 'Ожидает подтверждение транзакции перевода криптовалюты от продавца к покупателю с эскроу-счета. Сервер запрашивает подтверждение у блокчейна каждые две минуты'">
+                <div class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                    Ждите подтверждение транзакции перевода криптовалюты от продавца к покупателю с эскроу-счета. Сервер
+                    запрашивает подтверждение у блокчейна каждые две минуты
+                </div>
+            </template>
+            <template v-if="order.status == 'Завершен'">
+                <div class="second-text-color second-border-color border rounded-pill px-3 py-1">
+                    Заказ завершен
+                </div>
             </template>
         </div>
     </div>

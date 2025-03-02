@@ -1,20 +1,11 @@
 <script setup lang="ts">
 
 import { ref } from "vue";
-import { createSellOrder } from "@/services/apiService";
-import { sendMessage } from "@/services/telegramService";
+import { create as createSellOrder } from "@/services/api/sellOrder";
 
 const cryptoAmount = ref('');
 const cryptoToFiatExchangeRate = ref('');
 const paymentMethodInfo = ref('');
-
-async function createSellOrderZ() {
-    await createSellOrder(Number(cryptoAmount.value), Number(cryptoToFiatExchangeRate.value), paymentMethodInfo.value);
-
-    await sendMessage('Вы создали заказ на продажу.')
-
-    alert('Заказ на продажу успешно создан. Другие пользователи смогут его увидеть после того, как транзакция перевода криптовалюты на эскроу-счет будет подтверждена. Сервер запрашивает подтверждение у блокчейна каждые две минуты.')
-}
 
 </script>
 
@@ -34,7 +25,7 @@ async function createSellOrderZ() {
                     class="third-text-color first-background-color second-border-color border-0 border-bottom w-100 px-3 py-1"
                     v-model="paymentMethodInfo" placeholder="Информация о способе оплаты"></textarea>
                 <button class="third-text-color first-background-color second-border-color rounded mt-3 px-3 py-1"
-                    @click="createSellOrderZ">
+                    @click="createSellOrder(Number(cryptoAmount), Number(cryptoToFiatExchangeRate), paymentMethodInfo)">
                     Создать
                 </button>
             </div>
